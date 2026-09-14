@@ -1,19 +1,13 @@
-<header class="site-header" data-header style="--logo-width: {{ settings.logo_width }}px">
+<header class="site-header{% if section.settings.transparent_home and request.page_type == 'index' %} site-header--overlay{% endif %}" data-header style="--logo-desktop:{{ section.settings.logo_width }}px;--logo-mobile:{{ section.settings.mobile_logo_width }}px;--logo-space:{{ section.settings.logo_spacing }}px">
   <button class="icon-button mobile-only" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>{{ 'accessibility.menu' | t }}</button>
-  <a class="wordmark" href="{{ routes.root_url }}" aria-label="Scar home">
-    {% if settings.logo != blank %}{{ settings.logo | image_url: width: 1000 | image_tag: widths: '200,400,600,1000', width: settings.logo_width, alt: shop.name, preload: true }}{% else %}<span>SCAR</span>{% endif %}
+  <a class="wordmark wordmark--{{ section.settings.logo_alignment }}" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }} home">
+    {% if section.settings.show_logo %}{% assign mobile_logo = section.settings.mobile_logo | default: section.settings.logo %}{% if section.settings.logo != blank %}{{ section.settings.logo | image_url: width: 1000 | image_tag: class: 'header-logo header-logo--desktop', widths: '160,240,400,600,1000', alt: shop.name, preload: true }}{{ mobile_logo | image_url: width: 600 | image_tag: class: 'header-logo header-logo--mobile', widths: '120,240,400,600', alt: shop.name, preload: true }}{% else %}<span>{{ shop.name }}</span>{% endif %}{% endif %}
   </a>
-  <nav class="desktop-nav" aria-label="Main navigation">
-    {% for link in section.settings.menu.links %}<a href="{{ link.url }}">{{ link.title }}</a>{% endfor %}
-  </nav>
-  <div class="header-actions">
-    <a href="{{ routes.search_url }}">{{ 'general.search' | t }}</a>
-    {% if shop.customer_accounts_enabled %}<a href="{{ routes.account_url }}">Account</a>{% endif %}
-    <button class="text-button" type="button" data-cart-open aria-controls="CartDrawer">Bag (<span data-cart-count>{{ cart.item_count }}</span>)</button>
-  </div>
+  <nav class="desktop-nav" aria-label="Main navigation">{% for link in section.settings.menu.links %}<a href="{{ link.url }}">{{ link.title }}</a>{% endfor %}</nav>
+  <div class="header-actions"><a href="{{ routes.search_url }}">{{ 'general.search' | t }}</a>{% if shop.customer_accounts_enabled %}<a href="{{ routes.account_url }}">Account</a>{% endif %}<button class="text-button" type="button" data-cart-open aria-controls="CartDrawer">Bag (<span data-cart-count>{{ cart.item_count }}</span>)</button></div>
   <nav id="mobile-menu" class="mobile-menu" hidden aria-label="Mobile navigation">
-    {% for link in section.settings.menu.links %}<a href="{{ link.url }}">{{ link.title }}</a>{% endfor %}
-    <a href="{{ routes.search_url }}">Search</a>
+    {% if section.settings.drawer_logo != blank %}<div class="drawer-logo drawer-logo--{{ section.settings.drawer_logo_alignment }}" style="--drawer-logo-width:{{ section.settings.drawer_logo_width }}px;--drawer-logo-mobile:{{ section.settings.drawer_logo_mobile_width }}px;--drawer-logo-space:{{ section.settings.drawer_logo_spacing }}px">{{ section.settings.drawer_logo | image_url: width: 800 | image_tag: widths: '160,320,500,800', alt: shop.name }}</div>{% endif %}
+    {% for link in section.settings.menu.links %}<a href="{{ link.url }}">{{ link.title }}</a>{% endfor %}<a href="{{ routes.search_url }}">Search</a>{% if shop.customer_accounts_enabled %}<a href="{{ routes.account_url }}">Account</a>{% endif %}
   </nav>
 </header>
-{% schema %}{"name":"Header","settings":[{"type":"link_list","id":"menu","default":"main-menu","label":"Menu"}]}{% endschema %}
+{% schema %}{"name":"Header","settings":[{"type":"link_list","id":"menu","default":"main-menu","label":"Navigation menu"},{"type":"header","content":"Header logo"},{"type":"checkbox","id":"show_logo","default":true,"label":"Show header logo"},{"type":"image_picker","id":"logo","label":"Desktop header logo"},{"type":"image_picker","id":"mobile_logo","label":"Mobile header logo (optional)"},{"type":"range","id":"logo_width","min":80,"max":400,"step":10,"default":220,"unit":"px","label":"Desktop logo width"},{"type":"range","id":"mobile_logo_width","min":60,"max":240,"step":10,"default":130,"unit":"px","label":"Mobile logo width"},{"type":"select","id":"logo_alignment","default":"center","label":"Logo alignment","options":[{"value":"left","label":"Left"},{"value":"center","label":"Center"},{"value":"right","label":"Right"}]},{"type":"range","id":"logo_spacing","min":0,"max":40,"step":2,"default":0,"unit":"px","label":"Logo spacing"},{"type":"checkbox","id":"transparent_home","default":false,"label":"Transparent over homepage hero"},{"type":"header","content":"Navigation drawer logo"},{"type":"image_picker","id":"drawer_logo","label":"Drawer logo"},{"type":"range","id":"drawer_logo_width","min":80,"max":400,"step":10,"default":220,"unit":"px","label":"Desktop width"},{"type":"range","id":"drawer_logo_mobile_width","min":60,"max":240,"step":10,"default":130,"unit":"px","label":"Mobile width"},{"type":"select","id":"drawer_logo_alignment","default":"left","label":"Alignment","options":[{"value":"left","label":"Left"},{"value":"center","label":"Center"},{"value":"right","label":"Right"}]},{"type":"range","id":"drawer_logo_spacing","min":0,"max":40,"step":2,"default":16,"unit":"px","label":"Spacing"}]}{% endschema %}

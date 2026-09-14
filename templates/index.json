@@ -1,1 +1,1 @@
-{"sections":{"hero":{"type":"hero","settings":{}},"featured":{"type":"featured-collection","settings":{}}},"order":["hero","featured"]}
+{"sections":{"hero":{"type":"hero","settings":{"show_hero":true,"desktop_height":55,"mobile_height":45,"show_button":false}},"featured":{"type":"featured-collection","settings":{"heading":"New Arrivals","limit":12,"columns":4,"show_view_all":true}},"editorial":{"type":"editorial","settings":{"show_section":true}},"newsletter":{"type":"newsletter","settings":{}}},"order":["hero","featured","editorial","newsletter"]}

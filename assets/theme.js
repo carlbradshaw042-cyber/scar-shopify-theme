@@ -60,3 +60,27 @@ if ('IntersectionObserver' in window) {
   const observer = new IntersectionObserver((entries) => entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); } }), { threshold: 0.08 });
   document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
 }
+
+const overlayHeader = document.querySelector('.site-header--overlay');
+if (overlayHeader) {
+  const updateHeader = () => overlayHeader.classList.toggle('is-scrolled', window.scrollY > 24);
+  updateHeader();
+  window.addEventListener('scroll', updateHeader, { passive: true });
+}
+
+const sizeGuide = document.querySelector('[data-size-guide]');
+let sizeGuideOpener;
+const closeSizeGuide = () => {
+  if (!sizeGuide) return;
+  sizeGuide.setAttribute('aria-hidden', 'true');
+  body.classList.remove('drawer-open');
+  sizeGuideOpener?.focus();
+};
+document.querySelector('[data-size-guide-open]')?.addEventListener('click', (event) => {
+  sizeGuideOpener = event.currentTarget;
+  sizeGuide.setAttribute('aria-hidden', 'false');
+  body.classList.add('drawer-open');
+  sizeGuide.querySelector('[data-size-guide-close]')?.focus();
+});
+sizeGuide?.querySelectorAll('[data-size-guide-close]').forEach((button) => button.addEventListener('click', closeSizeGuide));
+document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && sizeGuide?.getAttribute('aria-hidden') === 'false') closeSizeGuide(); });
