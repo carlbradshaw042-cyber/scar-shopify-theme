@@ -1,0 +1,2 @@
+<div id="CartDrawer" class="drawer" aria-hidden="true"><button class="drawer__scrim" data-cart-close aria-label="{{ 'accessibility.close' | t }}"></button><aside class="drawer__panel" role="dialog" aria-modal="true" aria-labelledby="CartTitle"><header><h2 id="CartTitle">{{ 'cart.title' | t }}</h2><button class="icon-button" data-cart-close aria-label="{{ 'accessibility.close' | t }}">×</button></header><div data-cart-content>{% render 'cart-items' %}</div></aside></div>
+{% schema %}{"name":"Cart drawer","settings":[]}{% endschema %}

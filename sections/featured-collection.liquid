@@ -1,0 +1,8 @@
+<section class="section-pad">
+  <header class="section-head"><div><p class="eyebrow">{{ section.settings.eyebrow }}</p><h2>{{ section.settings.heading }}</h2></div>{% if section.settings.collection != blank %}<a href="{{ section.settings.collection.url }}">{{ 'general.view_all' | t }} ↗</a>{% endif %}</header>
+  <div class="product-grid">
+    {% if section.settings.collection != blank %}{% for product in section.settings.collection.products limit: section.settings.limit %}{% render 'product-card', product: product %}{% else %}<p>No products yet.</p>{% endfor %}
+    {% else %}{% for i in (1..2) %}<article class="product-card">{{ 'product-' | append: i | placeholder_svg_tag }}<div class="product-card__meta"><h3>{{ shop.name | escape }} product</h3><span>Select a collection</span></div></article>{% endfor %}{% endif %}
+  </div>
+</section>
+{% schema %}{"name":"Featured collection","settings":[{"type":"text","id":"eyebrow","default":"CURRENT RELEASE","label":"Eyebrow"},{"type":"text","id":"heading","default":"Uniform for after dark.","label":"Heading"},{"type":"collection","id":"collection","label":"Collection"},{"type":"range","id":"limit","min":2,"max":12,"step":2,"default":4,"label":"Products"}],"presets":[{"name":"Featured collection"}]}{% endschema %}

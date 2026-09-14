@@ -1,0 +1,20 @@
+{%- comment -%}
+  Renders a responsive, uncropped brand logo. Section settings supply the image,
+  width, and placement so every logo location can be managed independently.
+{%- endcomment -%}
+{%- assign responsive_size = width | append: 'px' -%}
+{%- if logo != blank -%}
+  {{- logo
+    | image_url: width: 1200
+    | image_tag:
+      class: class,
+      widths: '100, 160, 240, 320, 480, 640, 800, 1000, 1200',
+      sizes: responsive_size,
+      width: logo.width,
+      height: logo.height,
+      alt: shop.name,
+      preload: preload
+  -}}
+{%- else -%}
+  <span class="brand-logo__text">{{ shop.name | escape }}</span>
+{%- endif -%}

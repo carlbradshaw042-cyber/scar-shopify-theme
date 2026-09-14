@@ -1,0 +1,104 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Scar",
+    "theme_version": "1.0.0",
+    "theme_author": "Scar",
+    "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
+    "theme_support_url": "https://help.shopify.com/"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_bg",
+        "default": "#f4f3ef",
+        "label": "Background"
+      },
+      {
+        "type": "color",
+        "id": "color_ink",
+        "default": "#0b0b0b",
+        "label": "Text"
+      },
+      {
+        "type": "color",
+        "id": "color_muted",
+        "default": "#686868",
+        "label": "Muted text"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "default": "#661818",
+        "label": "Accent"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "heading_font",
+        "default": "helvetica_n7",
+        "label": "Headings"
+      },
+      {
+        "type": "font_picker",
+        "id": "body_font",
+        "default": "helvetica_n4",
+        "label": "Body"
+      }
+    ]
+  },
+  {
+    "name": "Product",
+    "settings": [
+      {
+        "type": "text",
+        "id": "shipping_date",
+        "label": "Preorder shipping date",
+        "default": "Ships in 4–6 weeks",
+        "info": "Shown on product pages. Update this for each release."
+      },
+      {
+        "type": "checkbox",
+        "id": "show_dynamic_checkout",
+        "default": true,
+        "label": "Show accelerated checkout"
+      },
+      {
+        "type": "page",
+        "id": "size_guide",
+        "label": "Size guide page"
+      }
+    ]
+  },
+  {
+    "name": "Social",
+    "settings": [
+      {
+        "type": "url",
+        "id": "instagram_url",
+        "label": "Instagram URL"
+      },
+      {
+        "type": "url",
+        "id": "tiktok_url",
+        "label": "TikTok URL"
+      }
+    ]
+  }
+]

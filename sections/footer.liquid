@@ -1,0 +1,22 @@
+<footer class="footer section-pad">
+  {% if section.settings.show_logo %}
+    <a class="footer__brand footer__brand--{{ section.settings.logo_alignment }}" href="{{ routes.root_url }}" style="--footer-logo-width: {{ section.settings.logo_width }}px;">
+      {% render 'brand-logo', logo: section.settings.logo, width: section.settings.logo_width, class: 'brand-logo__image', preload: false %}
+    </a>
+  {% endif %}
+  <nav aria-label="Footer"><a href="{{ routes.all_products_collection_url }}">Shop</a>{% for link in section.settings.menu.links %}<a href="{{ link.url }}">{{ link.title }}</a>{% endfor %}{% if settings.instagram_url != blank %}<a href="{{ settings.instagram_url }}" rel="noopener" target="_blank">Instagram</a>{% endif %}{% if settings.tiktok_url != blank %}<a href="{{ settings.tiktok_url }}" rel="noopener" target="_blank">TikTok</a>{% endif %}</nav>
+  <div class="footer__bottom"><span>© {{ 'now' | date: '%Y' }} {{ shop.name | escape }}</span>{% form 'localization', id: 'FooterLocalization' %}<label class="visually-hidden" for="LocaleSelector">Language</label><select id="LocaleSelector" name="locale_code" onchange="this.form.submit()">{% for language in localization.available_languages %}<option value="{{ language.iso_code }}"{% if language.iso_code == localization.language.iso_code %} selected{% endif %}>{{ language.endonym_name }}</option>{% endfor %}</select>{% endform %}<span>{{ powered_by_link }}</span></div>
+</footer>
+{% schema %}
+{
+  "name":"Footer and logo",
+  "settings":[
+    {"type":"link_list","id":"menu","label":"Footer menu","info":"Add Contact, Sizing and Shipping pages here."},
+    {"type":"header","content":"Footer logo"},
+    {"type":"checkbox","id":"show_logo","default":true,"label":"Show footer logo"},
+    {"type":"image_picker","id":"logo","label":"Footer logo image","info":"Displays the store name when empty."},
+    {"type":"range","id":"logo_width","min":100,"max":600,"step":10,"default":400,"unit":"px","label":"Footer logo width"},
+    {"type":"select","id":"logo_alignment","default":"left","label":"Footer logo alignment","options":[{"value":"left","label":"Left"},{"value":"center","label":"Center"},{"value":"right","label":"Right"}]}
+  ]
+}
+{% endschema %}

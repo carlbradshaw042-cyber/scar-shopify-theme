@@ -1,0 +1,50 @@
+<header
+  class="site-header site-header--logo-{{ section.settings.header_logo_alignment }} mobile-logo--{{ section.settings.mobile_logo_alignment }}"
+  data-header
+  style="--header-logo-width: {{ section.settings.header_logo_width }}px; --mobile-logo-width: {{ section.settings.mobile_logo_width }}px; --drawer-logo-width: {{ section.settings.drawer_logo_width }}px;"
+>
+  <button class="icon-button mobile-only" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>{{ 'accessibility.menu' | t }}</button>
+  <a class="wordmark wordmark--desktop" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }} home">
+    {% render 'brand-logo', logo: section.settings.header_logo, width: section.settings.header_logo_width, class: 'brand-logo__image', preload: true %}
+  </a>
+  <a class="wordmark wordmark--mobile" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }} home">
+    {% assign mobile_logo = section.settings.mobile_logo | default: section.settings.header_logo %}
+    {% render 'brand-logo', logo: mobile_logo, width: section.settings.mobile_logo_width, class: 'brand-logo__image', preload: true %}
+  </a>
+  <nav class="desktop-nav" aria-label="Main navigation">
+    {% for link in section.settings.menu.links %}<a href="{{ link.url }}">{{ link.title }}</a>{% endfor %}
+  </nav>
+  <div class="header-actions">
+    <a href="{{ routes.search_url }}">{{ 'general.search' | t }}</a>
+    {% if shop.customer_accounts_enabled %}<a href="{{ routes.account_url }}">Account</a>{% endif %}
+    <button class="text-button" type="button" data-cart-open aria-controls="CartDrawer">Bag (<span data-cart-count>{{ cart.item_count }}</span>)</button>
+  </div>
+  <nav id="mobile-menu" class="mobile-menu" hidden aria-label="Mobile navigation">
+    <a class="drawer-logo drawer-logo--{{ section.settings.drawer_logo_alignment }}" href="{{ routes.root_url }}">
+      {% assign drawer_logo = section.settings.drawer_logo | default: section.settings.mobile_logo | default: section.settings.header_logo %}
+      {% render 'brand-logo', logo: drawer_logo, width: section.settings.drawer_logo_width, class: 'brand-logo__image', preload: false %}
+    </a>
+    {% for link in section.settings.menu.links %}<a href="{{ link.url }}">{{ link.title }}</a>{% endfor %}
+    <a href="{{ routes.search_url }}">Search</a>
+  </nav>
+</header>
+{% schema %}
+{
+  "name": "Header and logos",
+  "settings": [
+    {"type":"link_list","id":"menu","default":"main-menu","label":"Navigation menu"},
+    {"type":"header","content":"Desktop header logo"},
+    {"type":"image_picker","id":"header_logo","label":"Desktop logo image"},
+    {"type":"range","id":"header_logo_width","min":80,"max":500,"step":10,"default":260,"unit":"px","label":"Desktop logo width"},
+    {"type":"select","id":"header_logo_alignment","default":"center","label":"Desktop logo alignment","options":[{"value":"left","label":"Left"},{"value":"center","label":"Center"},{"value":"right","label":"Right"}]},
+    {"type":"header","content":"Mobile header logo"},
+    {"type":"image_picker","id":"mobile_logo","label":"Mobile logo image","info":"Uses the desktop logo when empty."},
+    {"type":"range","id":"mobile_logo_width","min":60,"max":280,"step":10,"default":140,"unit":"px","label":"Mobile logo width"},
+    {"type":"select","id":"mobile_logo_alignment","default":"center","label":"Mobile logo alignment","options":[{"value":"left","label":"Left"},{"value":"center","label":"Center"},{"value":"right","label":"Right"}]},
+    {"type":"header","content":"Navigation drawer logo"},
+    {"type":"image_picker","id":"drawer_logo","label":"Drawer logo image","info":"Uses the mobile or desktop logo when empty."},
+    {"type":"range","id":"drawer_logo_width","min":60,"max":360,"step":10,"default":180,"unit":"px","label":"Drawer logo width"},
+    {"type":"select","id":"drawer_logo_alignment","default":"left","label":"Drawer logo alignment","options":[{"value":"left","label":"Left"},{"value":"center","label":"Center"},{"value":"right","label":"Right"}]}
+  ]
+}
+{% endschema %}

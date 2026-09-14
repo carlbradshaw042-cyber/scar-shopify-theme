@@ -1,0 +1,40 @@
+<section class="hero hero--{{ section.settings.height }}" style="--shade:{{ section.settings.overlay | divided_by: 100.0 }}">
+  <div class="hero__media">
+    {% if section.settings.video != blank %}{{ section.settings.video | video_tag: autoplay: true, loop: true, muted: true, controls: false, playsinline: true }}
+    {% elsif section.settings.image != blank %}{{ section.settings.image | image_url: width: 2400 | image_tag: widths: '600,900,1200,1800,2400', sizes: '100vw', loading: 'eager', fetchpriority: 'high', alt: section.settings.image.alt }}
+    {% else %}{{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}{% endif %}
+  </div>
+  <div class="hero__content hero__content--{{ section.settings.position }} hero__logo-align--{{ section.settings.logo_alignment }}" style="--hero-logo-width: {{ section.settings.logo_width }}px;">
+    {% if section.settings.show_logo %}
+      <div class="hero__logo">
+        {% render 'brand-logo', logo: section.settings.logo, width: section.settings.logo_width, class: 'brand-logo__image', preload: true %}
+      </div>
+    {% endif %}
+    {% if section.settings.eyebrow != blank %}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{% endif %}
+    <h1>{{ section.settings.heading }}</h1>
+    {% if section.settings.button_label != blank %}<a class="button button--light" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">{{ section.settings.button_label }}</a>{% endif %}
+  </div>
+</section>
+{% schema %}
+{
+  "name":"Image or video hero",
+  "settings":[
+    {"type":"image_picker","id":"image","label":"Background image"},
+    {"type":"video","id":"video","label":"Shopify-hosted background video"},
+    {"type":"header","content":"Hero logo"},
+    {"type":"checkbox","id":"show_logo","default":false,"label":"Show hero logo"},
+    {"type":"image_picker","id":"logo","label":"Hero logo image","info":"Displays the store name when empty."},
+    {"type":"range","id":"logo_width","min":80,"max":600,"step":10,"default":280,"unit":"px","label":"Hero logo width"},
+    {"type":"select","id":"logo_alignment","default":"left","label":"Hero logo alignment","options":[{"value":"left","label":"Left"},{"value":"center","label":"Center"},{"value":"right","label":"Right"}]},
+    {"type":"header","content":"Hero content"},
+    {"type":"text","id":"eyebrow","default":"LIMITED RELEASE","label":"Eyebrow"},
+    {"type":"text","id":"heading","default":"BUILT TO BE WORN IN","label":"Heading"},
+    {"type":"text","id":"button_label","default":"Shop Denim","label":"Button label"},
+    {"type":"url","id":"button_link","label":"Button link"},
+    {"type":"select","id":"height","label":"Height","default":"full","options":[{"value":"medium","label":"Medium"},{"value":"full","label":"Full screen"}]},
+    {"type":"select","id":"position","label":"Content position","default":"bottom-left","options":[{"value":"bottom-left","label":"Bottom left"},{"value":"center","label":"Center"}]},
+    {"type":"range","id":"overlay","min":0,"max":60,"step":5,"default":20,"unit":"%","label":"Overlay"}
+  ],
+  "presets":[{"name":"Image or video hero"}]
+}
+{% endschema %}

@@ -1,0 +1,1 @@
+<section class="section-pad page-top"><h1>Shop</h1><div class="product-grid">{% for collection in collections %}<article class="product-card"><a href="{{ collection.url }}">{% if collection.featured_image %}{{ collection.featured_image | image_url: width: 1200 | image_tag: loading: 'lazy' }}{% endif %}<h2>{{ collection.title }}</h2></a></article>{% endfor %}</div></section>
