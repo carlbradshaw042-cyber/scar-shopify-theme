@@ -1,0 +1,4 @@
+<span class="price{% unless product.available %} price--sold{% endunless %}">
+  {% if product.price_varies %}From {% endif %}{{ product.price | money }}
+  {% if product.compare_at_price > product.price %}<s>{{ product.compare_at_price | money }}</s>{% endif %}
+</span>

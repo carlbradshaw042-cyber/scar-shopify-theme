@@ -1,0 +1,7 @@
+<article class="product-card reveal">
+  <a href="{{ product.url }}" class="product-card__media">
+    {% if product.featured_media %}{{ product.featured_media | image_url: width: 1600 | image_tag: widths: '400,700,1000,1600', sizes: '(min-width: 750px) 50vw, 100vw', loading: 'lazy', alt: product.featured_media.alt }}{% else %}{{ 'product-1' | placeholder_svg_tag }}{% endif %}
+    {% if product.media[1] != blank %}{{ product.media[1] | image_url: width: 1600 | image_tag: class: 'product-card__second', widths: '400,700,1000,1600', sizes: '(min-width: 750px) 50vw, 100vw', loading: 'lazy', alt: product.media[1].alt }}{% endif %}
+  </a>
+  <div class="product-card__meta"><h3><a href="{{ product.url }}">{{ product.title }}</a></h3>{% render 'price', product: product %}</div>
+</article>

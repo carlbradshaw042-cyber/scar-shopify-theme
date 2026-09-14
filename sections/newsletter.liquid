@@ -1,0 +1,5 @@
+<section class="newsletter section-pad">
+  <div><p class="eyebrow">{{ section.settings.eyebrow }}</p><h2>{{ section.settings.heading }}</h2><p>{{ section.settings.text }}</p></div>
+  {% form 'customer', class: 'newsletter__form' %}<input type="hidden" name="contact[tags]" value="newsletter"><label class="visually-hidden" for="NewsletterEmail">{{ 'newsletter.email' | t }}</label><input id="NewsletterEmail" type="email" name="contact[email]" placeholder="{{ 'newsletter.email' | t }}" required autocomplete="email"><button type="submit">{{ 'newsletter.submit' | t }} ↗</button>{% if form.posted_successfully? %}<p role="status">You’re on the list.</p>{% endif %}{{ form.errors | default_errors }}{% endform %}
+</section>
+{% schema %}{"name":"Email signup","settings":[{"type":"text","id":"eyebrow","default":"PRIVATE ACCESS","label":"Eyebrow"},{"type":"text","id":"heading","default":"Stay close.","label":"Heading"},{"type":"textarea","id":"text","default":"Early access, release notes and shipping updates.","label":"Text"}],"presets":[{"name":"Email signup"}]}{% endschema %}

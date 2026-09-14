@@ -1,0 +1,21 @@
+<section class="product" data-product-section data-section-id="{{ section.id }}">
+  <div class="product__gallery" aria-label="Product media">
+    {% for media in product.media %}<figure id="Media-{{ media.id }}" class="product__media">{% case media.media_type %}{% when 'image' %}{{ media | image_url: width: 2000 | image_tag: widths: '600,900,1200,1600,2000', sizes: '(min-width: 900px) 62vw, 100vw', loading: 'lazy', alt: media.alt }}{% when 'video' %}{{ media | video_tag: controls: true, image_size: '1200x' }}{% when 'external_video' %}{{ media | external_video_tag }}{% when 'model' %}{{ media | model_viewer_tag }}{% endcase %}</figure>{% endfor %}
+  </div>
+  <div class="product__info">
+    <p class="eyebrow">{{ section.settings.eyebrow }}</p><h1>{{ product.title }}</h1><div data-product-price>{% render 'price', product: product %}</div>
+    {% form 'product', product, id: 'ProductForm', class: 'product-form', data-product-form: '' %}
+      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" data-variant-id>
+      {% unless product.has_only_default_variant %}{% for option in product.options_with_values %}<fieldset class="variant-field"><legend>{{ option.name }}</legend><div class="variant-buttons">{% for value in option.values %}<input class="visually-hidden" type="radio" id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" name="options[{{ option.name | escape }}]" value="{{ value | escape }}" data-option-position="{{ option.position }}"{% if option.selected_value == value %} checked{% endif %}><label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}">{{ value }}</label>{% endfor %}</div></fieldset>{% endfor %}{% endunless %}
+      <label for="Quantity-{{ section.id }}">{{ 'products.quantity' | t }}</label><input class="quantity" id="Quantity-{{ section.id }}" type="number" name="quantity" value="1" min="1">
+      <p class="shipping-note"><span></span>{{ section.settings.shipping_label }} <strong>{{ settings.shipping_date }}</strong></p>
+      <button class="button add-button" type="submit" name="add" data-add-button{% unless product.selected_or_first_available_variant.available %} disabled{% endunless %}><span data-add-text>{% if product.selected_or_first_available_variant.available %}{{ 'products.add_to_cart' | t }}{% else %}{{ 'products.sold_out' | t }}{% endif %}</span><span data-selected-price>{{ product.selected_or_first_available_variant.price | money }}</span></button>
+      {% if settings.show_dynamic_checkout %}<div class="dynamic-checkout">{{ form | payment_button }}</div>{% endif %}
+    {% endform %}
+    {% if settings.size_guide != blank %}<details class="product-detail"><summary>{{ 'products.size_guide' | t }} <span>+</span></summary><div class="rte">{{ settings.size_guide.content }}</div></details>{% endif %}
+    <details class="product-detail" open><summary>Description <span>+</span></summary><div class="rte">{{ product.description }}</div></details>
+    {% if section.settings.materials != blank %}<details class="product-detail"><summary>Materials & construction <span>+</span></summary><div class="rte">{{ section.settings.materials }}</div></details>{% endif %}
+  </div>
+  <script type="application/json" data-product-json>{{ product.variants | json }}</script>
+</section>
+{% schema %}{"name":"Product information","settings":[{"type":"text","id":"eyebrow","default":"SCAR / GARMENT","label":"Eyebrow"},{"type":"text","id":"shipping_label","default":"Preorder update:","label":"Shipping notice label"},{"type":"richtext","id":"materials","label":"Materials and construction","default":"<p>14 oz heavyweight denim. 100% cotton. Relaxed baggy fit. Hand-distressed plaid detailing. Limited production run.</p>"}]}{% endschema %}
