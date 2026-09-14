@@ -1,0 +1,19 @@
+<header class="site-header" data-header style="--logo-width: {{ settings.logo_width }}px">
+  <button class="icon-button mobile-only" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>{{ 'accessibility.menu' | t }}</button>
+  <a class="wordmark" href="{{ routes.root_url }}" aria-label="Scar home">
+    {% if settings.logo != blank %}{{ settings.logo | image_url: width: 1000 | image_tag: widths: '200,400,600,1000', width: settings.logo_width, alt: shop.name, preload: true }}{% else %}<span>SCAR</span>{% endif %}
+  </a>
+  <nav class="desktop-nav" aria-label="Main navigation">
+    {% for link in section.settings.menu.links %}<a href="{{ link.url }}">{{ link.title }}</a>{% endfor %}
+  </nav>
+  <div class="header-actions">
+    <a href="{{ routes.search_url }}">{{ 'general.search' | t }}</a>
+    {% if shop.customer_accounts_enabled %}<a href="{{ routes.account_url }}">Account</a>{% endif %}
+    <button class="text-button" type="button" data-cart-open aria-controls="CartDrawer">Bag (<span data-cart-count>{{ cart.item_count }}</span>)</button>
+  </div>
+  <nav id="mobile-menu" class="mobile-menu" hidden aria-label="Mobile navigation">
+    {% for link in section.settings.menu.links %}<a href="{{ link.url }}">{{ link.title }}</a>{% endfor %}
+    <a href="{{ routes.search_url }}">Search</a>
+  </nav>
+</header>
+{% schema %}{"name":"Header","settings":[{"type":"link_list","id":"menu","default":"main-menu","label":"Menu"}]}{% endschema %}

@@ -1,0 +1,6 @@
+<footer class="footer section-pad">
+  <a class="footer__brand" href="{{ routes.root_url }}">SCAR</a>
+  <nav aria-label="Footer"><a href="{{ routes.all_products_collection_url }}">Shop</a>{% for link in section.settings.menu.links %}<a href="{{ link.url }}">{{ link.title }}</a>{% endfor %}{% if settings.instagram_url != blank %}<a href="{{ settings.instagram_url }}" rel="noopener" target="_blank">Instagram</a>{% endif %}{% if settings.tiktok_url != blank %}<a href="{{ settings.tiktok_url }}" rel="noopener" target="_blank">TikTok</a>{% endif %}</nav>
+  <div class="footer__bottom"><span>© {{ 'now' | date: '%Y' }} Scar</span>{% form 'localization', id: 'FooterLocalization' %}<label class="visually-hidden" for="LocaleSelector">Language</label><select id="LocaleSelector" name="locale_code" onchange="this.form.submit()">{% for language in localization.available_languages %}<option value="{{ language.iso_code }}"{% if language.iso_code == localization.language.iso_code %} selected{% endif %}>{{ language.endonym_name }}</option>{% endfor %}</select>{% endform %}<span>{{ powered_by_link }}</span></div>
+</footer>
+{% schema %}{"name":"Footer","settings":[{"type":"link_list","id":"menu","label":"Footer menu","info":"Add Contact, Sizing and Shipping pages here."}]}{% endschema %}
